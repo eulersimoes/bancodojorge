@@ -5,8 +5,10 @@
  */
 package br.com.bancodojorge.apirest.infrastructure.repository;
 
+import br.com.bancodojorge.apirest.domain.dto.ClienteDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.bancodojorge.apirest.domain.model.Cliente;
+import java.util.List;
 import java.util.Optional;
 /**
  *
@@ -14,5 +16,6 @@ import java.util.Optional;
  */
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
    Optional<Cliente> findByCpf(String cpf);    
-   Optional<Cliente> findById(Long id);   
+   Optional<Cliente> findById(Long id);  
+   //List<ClienteDTO> listarClientes();
 }
