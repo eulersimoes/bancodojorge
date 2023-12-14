@@ -1,2 +1,2 @@
 # bancodojorge
-Projeto para turma de banco de dados1
+Projeto didático para disciplina de Banco de Dados 1
