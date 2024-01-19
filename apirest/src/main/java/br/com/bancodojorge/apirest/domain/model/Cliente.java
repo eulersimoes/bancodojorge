@@ -11,7 +11,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-  
+
+import java.sql.Date;
+
 @Entity(name="cliente")
 @Table(name="cliente")
 @Getter //lombok gerar automaticamente getters e setters da classe
@@ -20,23 +22,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode(of="id")
 
-public class Cliente extends Pessoa {
+public class Cliente {
     
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="'sq_cliente'")
-    @Column(name="codigo",nullable = false)
+    @Column(name="clie_cd_cliente",nullable = false)
     private Long id;
     
-    @Column(name = "nome", nullable = false)
+    @Column(name = "clie_nm_cliente", nullable = false)
     private String nome;
     
-    @Column(name = "endereco", nullable = false)
+    @Column(name = "clie_ds_endereco", nullable = false)
     private String endereco;
     
-    @Column(name = "telefone", nullable = true)
-    private String telefone;
-    
-    @Column(name = "cpf", nullable = true)
+    @Column(name = "clie_dt_nascimento", nullable = true)
+    private Date dataNascimento;
+
+    @Column(name = "clie_cd_cpf", nullable = false)
     private String cpf;
 
     /**
@@ -79,34 +81,6 @@ public class Cliente extends Pessoa {
      */
     public void setEndereco(String endereco) {
         this.endereco = endereco;
-    }
-
-    /**
-     * @return the telefone
-     */
-    public String getTelefone() {
-        return telefone;
-    }
-
-    /**
-     * @param telefone the telefone to set
-     */
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    /**
-     * @return the cpf
-     */
-    public String getCpf() {
-        return cpf;
-    }
-
-    /**
-     * @param cpf the cpf to set
-     */
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
 }
