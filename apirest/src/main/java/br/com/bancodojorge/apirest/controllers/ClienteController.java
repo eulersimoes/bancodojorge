@@ -8,12 +8,14 @@ package br.com.bancodojorge.apirest.controllers;
 import br.com.bancodojorge.apirest.domain.dto.ClienteDTO;
 import br.com.bancodojorge.apirest.domain.model.Cliente;
 import br.com.bancodojorge.apirest.infrastructure.services.ClienteService;
-import java.util.List;
+import br.com.bancodojorge.apirest.infrastructure.services.ClienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  *
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequestMapping("/cliente")
 @RestController()
-public class ClienteControlller {
+public class ClienteController {
     
     @Autowired
     private ClienteService clienteService;
@@ -39,10 +41,10 @@ public class ClienteControlller {
     }
     
 
-    //@GetMapping()
-    //public List<ClienteDTO> listarCliente()
-    //{
-    //    return clienteService.listarClientes();
-    //}
+    @GetMapping("/listarClientes")
+    public List<ClienteDTO> listarCliente()
+    {
+        return clienteService.listarClientes();
+    }
     
 }

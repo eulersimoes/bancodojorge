@@ -16,6 +16,6 @@ public class ClienteDTO implements Serializable{
     public String nome;
     public String cpf;
     public String endereco;
-    public String telefone;
+    public String dataNascimento;
             
 }
