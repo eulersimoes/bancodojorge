@@ -9,6 +9,8 @@ import br.com.bancodojorge.apirest.domain.dto.ClienteDTO;
 import br.com.bancodojorge.apirest.domain.model.Cliente;
 import br.com.bancodojorge.apirest.infrastructure.services.ClienteService;
 import br.com.bancodojorge.apirest.infrastructure.services.ClienteServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,19 +26,22 @@ import java.util.List;
 @RequestMapping("/cliente")
 @RestController()
 public class ClienteController {
-    
+
+    Logger logger = LoggerFactory.getLogger(ClienteController.class);
     @Autowired
     private ClienteService clienteService;
     
     @GetMapping("/teste")
     public String teste()
     {
+        logger.info("teste");
         return "teste";
     }
     
     @GetMapping("/getCliente/{id}")
     public Cliente getClientebyId(@PathVariable Long id) throws Exception
     {
+        logger.info("getCliente");
         return clienteService.findClienteById(id);
     }
     
@@ -44,13 +49,15 @@ public class ClienteController {
     @GetMapping("/listarClientes")
     public List<ClienteDTO> listarCliente()
     {
+        logger.info("listarClientes");
         return clienteService.listarClientes();
     }
 
     @GetMapping("/gerarClientes/{quant}")
     public void GerarClientes(@PathVariable Integer quant) throws Exception
     {
-            clienteService.massClienteInsert(quant);
+        logger.info("gerarClientes");
+        clienteService.massClienteInsert(quant);
     }
     
 }

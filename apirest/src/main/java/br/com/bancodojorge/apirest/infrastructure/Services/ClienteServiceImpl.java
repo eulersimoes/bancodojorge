@@ -13,6 +13,8 @@ import br.com.bancodojorge.apirest.infrastructure.repository.ClienteRepository;
 import java.util.List;
 
 import br.com.bancodojorge.apirest.infrastructure.spring.assembler.Assembler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ClienteServiceImpl implements ClienteService {
+
+    Logger logger = LoggerFactory.getLogger(ClienteService.class);
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -39,22 +43,25 @@ public class ClienteServiceImpl implements ClienteService {
     
     public List<ClienteDTO> listarClientes()
     {
+        logger.info("Listar Clientes");
         return assembler.from(this.clienteRepository.findAll(), ClienteDTO.class);
         //return this.clienteRepository.findAll();
     }
 
     @Override
     public void massClienteInsert(Integer quantidade) {
+        logger.info("Iniciando geração de clientes");
         for (int i =0; i<quantidade;i++)
         {
            Cliente c = ClienteUtil.gerarClienteAleatorio();
            saveCliente (c);
-           System.out.println("Cliente Gerado: "+ c.getNome());
+            logger.info("Cliente Gerado: "+ c.getNome());
         }
     }
 
     public void saveCliente(Cliente cliente)
     {
+        logger.info("Salvando cliente");
         this.clienteRepository.save(cliente);
     }
 
