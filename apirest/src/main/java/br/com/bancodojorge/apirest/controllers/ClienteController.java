@@ -46,5 +46,11 @@ public class ClienteController {
     {
         return clienteService.listarClientes();
     }
+
+    @GetMapping("/gerarClientes/{quant}")
+    public void GerarClientes(@PathVariable Integer quant) throws Exception
+    {
+            clienteService.massClienteInsert(quant);
+    }
     
 }

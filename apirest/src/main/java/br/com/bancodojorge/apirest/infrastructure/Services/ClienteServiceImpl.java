@@ -8,6 +8,7 @@ package br.com.bancodojorge.apirest.infrastructure.services;
 import br.com.bancodojorge.apirest.domain.dto.ClienteDTO;
 import br.com.bancodojorge.apirest.domain.exception.ClienteNotFoundException;
 import br.com.bancodojorge.apirest.domain.model.Cliente;
+import br.com.bancodojorge.apirest.domain.util.ClienteUtil;
 import br.com.bancodojorge.apirest.infrastructure.repository.ClienteRepository;
 import java.util.List;
 
@@ -41,7 +42,17 @@ public class ClienteServiceImpl implements ClienteService {
         return assembler.from(this.clienteRepository.findAll(), ClienteDTO.class);
         //return this.clienteRepository.findAll();
     }
-    
+
+    @Override
+    public void massClienteInsert(Integer quantidade) {
+        for (int i =0; i<quantidade;i++)
+        {
+           Cliente c = ClienteUtil.gerarClienteAleatorio();
+           saveCliente (c);
+           System.out.println("Cliente Gerado: "+ c.getNome());
+        }
+    }
+
     public void saveCliente(Cliente cliente)
     {
         this.clienteRepository.save(cliente);

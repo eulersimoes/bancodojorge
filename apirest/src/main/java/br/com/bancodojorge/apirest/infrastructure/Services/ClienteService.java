@@ -10,6 +10,7 @@ public interface ClienteService {
     public Cliente findClienteById(Long id) throws Exception;
     public Cliente findClienteByCpf(String cpf) throws Exception;
     public List<ClienteDTO> listarClientes();
+    public void massClienteInsert(Integer quantidade);
 
 
 }
