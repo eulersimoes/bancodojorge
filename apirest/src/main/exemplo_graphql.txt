@@ -1,0 +1,17 @@
+acessar http://localhost:8080/graphiq
+
+queries:
+query clienteList {
+  clienteListGraphiql(id: "1") {
+    id
+    nome
+  }
+}
+
+query clienteCount {
+  clienteCountGraphiql
+}
+
+query clienteById {
+  clienteByIdGraphiql(id: 1)
+}

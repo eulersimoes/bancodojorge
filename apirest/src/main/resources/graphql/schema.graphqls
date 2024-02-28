@@ -1,0 +1,10 @@
+type Query {
+    clienteListGraphiql(page: Int): [Cliente!]!
+    clienteCountGraphiql: Int
+    clienteByIdGraphiql (id: ID): Cliente
+}
+
+type Cliente {
+  id: ID
+  nome: String
+}
