@@ -1,5 +1,5 @@
 acessar http://localhost:8080/graphiq
-
+* ! -> required field
 queries:
 query clienteList {
   clienteListGraphiql(id: "1") {
