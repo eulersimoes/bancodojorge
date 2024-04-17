@@ -52,7 +52,6 @@ services:
       - flyway
     ports: 
       - 8080:8080
-    command: printenv  
     build:
       context: .
       dockerfile: Dockerfile
@@ -60,3 +59,6 @@ services:
       - web_network
     env_file:
       - .env 
+    environment:
+      WAIT_HOSTS: postgres:5432
+      POSTGRES_HOST: postgresql-bancojorge
