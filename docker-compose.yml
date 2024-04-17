@@ -1,0 +1,56 @@
+version: '1.0'
+
+networks:
+  web_network:
+    driver: bridge
+
+volumes:
+  site_conf:
+
+services:
+  postgresql-bancojorge:
+    image: postgres
+    container_name: postgres_db_banco_jorge
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_ROOT_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
+    ports:
+      - ${POSTGRES_PORT}:5432
+#    volumes:
+#Usando flyway      - ./banco/script_criacao.sql:/docker-entrypoint-initdb.d/script_criacao.sql
+    networks:
+      - web_network
+    env_file:
+      - .env 
+
+  flyway:
+    container_name: my-flyway
+    environment:
+      - FLYWAY_USER=${POSTGRES_USER}
+      - FLYWAY_PASSWORD=${POSTGRES_PASSWORD}
+      - FLYWAY_URL=jdbc:postgresql://postgresql-bancojorge:${POSTGRES_PORT}/${POSTGRES_DB}
+      - FLYWAY_SCHEMAS=${POSTGRES_SCHEMA}
+      - FLYWAY_GROUP=true
+    image: flyway/flyway:latest
+    command: -locations=filesystem:/flyway/sql -connectRetries=60 migrate
+    volumes:
+      - $PWD/sql_versions:/flyway/sql
+    depends_on:
+      - postgresql-bancojorge
+    env_file:
+      - .env 
+    networks:
+      - web_network            
+#  apirest:
+#    image: banco-jorge
+#    container_name: banco-jorge-api
+#    ports: 
+#      - 8080:8080
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    networks:
+#      - web_network
