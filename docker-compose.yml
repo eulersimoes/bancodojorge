@@ -31,7 +31,7 @@ services:
     environment:
       - FLYWAY_USER=${POSTGRES_USER}
       - FLYWAY_PASSWORD=${POSTGRES_PASSWORD}
-      - FLYWAY_URL=jdbc:postgresql://postgresql-bancojorge:${POSTGRES_PORT}/${POSTGRES_DB}
+      - FLYWAY_URL=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       - FLYWAY_SCHEMAS=${POSTGRES_SCHEMA}
       - FLYWAY_GROUP=true
     image: flyway/flyway:latest
@@ -43,14 +43,20 @@ services:
     env_file:
       - .env 
     networks:
-      - web_network            
-#  apirest:
-#    image: banco-jorge
-#    container_name: banco-jorge-api
-#    ports: 
-#      - 8080:8080
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    networks:
-#      - web_network
+      - web_network  
+       
+  apirest:
+    image: banco-jorge
+    container_name: banco-jorge-api
+    depends_on:
+      - flyway
+    ports: 
+      - 8080:8080
+    command: printenv  
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - web_network
+    env_file:
+      - .env 
