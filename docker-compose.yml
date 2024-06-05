@@ -52,6 +52,7 @@ services:
       - flyway
     ports: 
       - 8080:8080
+      - 5005:5005
     build:
       context: .
       dockerfile: Dockerfile
@@ -62,3 +63,4 @@ services:
     environment:
       WAIT_HOSTS: postgres:5432
       POSTGRES_HOST: postgresql-bancojorge
+      JAVA_OPTS: "-Dcatalina.logs=/usr/local/tomcat/log -Xdebug -Xnoagent -Djava.compiler=NONE -Djavax.net.debug=ssl:handshake -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"
