@@ -8,7 +8,7 @@ package br.com.bancodojorge.apirest.controllers;
 import br.com.bancodojorge.apirest.domain.dto.ClienteDTO;
 import br.com.bancodojorge.apirest.domain.model.Cliente;
 import br.com.bancodojorge.apirest.infrastructure.services.ClienteService;
-import br.com.bancodojorge.apirest.infrastructure.services.ClienteServiceImpl;
+import br.com.bancodojorge.apirest.infrastructure.services.impl.ClienteServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

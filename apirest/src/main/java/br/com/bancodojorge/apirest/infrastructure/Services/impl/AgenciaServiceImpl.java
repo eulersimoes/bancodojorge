@@ -1,8 +1,8 @@
-package br.com.bancodojorge.apirest.infrastructure.services;
+package br.com.bancodojorge.apirest.infrastructure.services.impl;
 
 import br.com.bancodojorge.apirest.domain.dto.AgenciaDTO;
 import br.com.bancodojorge.apirest.infrastructure.repository.AgenciaRepository;
-import br.com.bancodojorge.apirest.infrastructure.repository.ClienteRepository;
+import br.com.bancodojorge.apirest.infrastructure.services.AgenciaService;
 import br.com.bancodojorge.apirest.infrastructure.spring.assembler.Assembler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

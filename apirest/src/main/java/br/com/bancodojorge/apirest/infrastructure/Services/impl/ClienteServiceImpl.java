@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.bancodojorge.apirest.infrastructure.services;
+package br.com.bancodojorge.apirest.infrastructure.services.impl;
 
 import br.com.bancodojorge.apirest.domain.dto.ClienteDTO;
 import br.com.bancodojorge.apirest.domain.exception.ClienteNotFoundException;
 import br.com.bancodojorge.apirest.domain.model.Cliente;
 import br.com.bancodojorge.apirest.domain.util.ClienteUtil;
 import br.com.bancodojorge.apirest.infrastructure.repository.ClienteRepository;
+import br.com.bancodojorge.apirest.infrastructure.services.ClienteService;
 import java.util.List;
 
 import br.com.bancodojorge.apirest.infrastructure.spring.assembler.Assembler;

@@ -1,4 +1,4 @@
-acessar http://localhost:8080/graphiq
+acessar http://localhost:8080/graphiql
 * ! -> required field
 queries:
 query clienteList {
@@ -14,4 +14,11 @@ query clienteCount {
 
 query clienteById {
   clienteByIdGraphiql(id: 1)
+}
+
+query contaListGraphiql {
+    contaListGraphiql{ 
+    id
+    datacriacao
+  }
 }

@@ -2,6 +2,7 @@ FROM maven:3-openjdk-17 as mvn-build-stage
 COPY --chmod=777 apirest/src /apirest/src
 COPY --chmod=777 apirest/pom.xml /apirest/pom.xml
 WORKDIR /apirest
+#REALIZA PACKAGE DO MAVEN ANTES DE GERAR A IMAGEM
 RUN mvn clean package -e -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true
 
 FROM openjdk:17-alpine

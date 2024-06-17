@@ -5,10 +5,8 @@
  */
 package br.com.bancodojorge.apirest.infrastructure.repository;
 
-import br.com.bancodojorge.apirest.domain.dto.ClienteDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.bancodojorge.apirest.domain.model.Cliente;
-import java.util.List;
 import java.util.Optional;
 /**
  *

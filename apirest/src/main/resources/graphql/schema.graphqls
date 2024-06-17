@@ -2,9 +2,33 @@ type Query {
     clienteListGraphiql(page: Int): [Cliente!]!
     clienteCountGraphiql: Int
     clienteByIdGraphiql (id: ID): Cliente
+    contaListGraphiql(page: Int): Conta
 }
 
 type Cliente {
   id: ID
   nome: String
+}
+
+type Conta {
+  id: ID
+  datacriacao: String
+  movimentacoes: [MovimentacaoConta]
+}
+
+type Agencia 
+{
+  id: ID
+  nomeAgencia: String
+  enderecoAgencia: String
+  ufAgencia: String
+}
+
+type MovimentacaoConta
+{
+  id: ID
+  valor: Float
+  tipo: String
+  data: String
+  conta: Conta
 }
