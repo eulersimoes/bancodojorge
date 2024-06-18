@@ -12,7 +12,7 @@ type Cliente {
 
 type Conta {
   id: ID
-  datacriacao: String
+  dataCriacao: String
   movimentacoes: [MovimentacaoConta]
 }
 

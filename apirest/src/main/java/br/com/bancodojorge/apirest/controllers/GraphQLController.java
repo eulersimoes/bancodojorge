@@ -11,10 +11,13 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class GraphQLController {
 
+    Logger logger = LoggerFactory.getLogger(GraphQLController.class);
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -38,6 +41,7 @@ public class GraphQLController {
 
     @QueryMapping
     public List<Conta> contaListGraphiql() {
+        logger.info("contaListGraphiql , quantidade: " + contaRepository.findAll().size());
         return contaRepository.findAll();
     }
 
