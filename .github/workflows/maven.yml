@@ -19,7 +19,9 @@ env:
   
 jobs:
   build:
-
+    env:
+       registry_schema: eulersimoes
+       registry_repository: bancodojorgeapi
     runs-on: ubuntu-latest
     permissions:
        contents: write
