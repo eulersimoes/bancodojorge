@@ -28,7 +28,8 @@ jobs:
     steps:
     - name: Check out the repo
       uses: actions/checkout@v3
-    
+    # O Step abaixo serve para fazer a compilação do projeto pelo maven, esta comentado porque o build esta sendo realizado dentro do
+    # próprio dockerfile.
     #- name: Set up JDK 17
     #  uses: actions/setup-java@v3
     #  with:
