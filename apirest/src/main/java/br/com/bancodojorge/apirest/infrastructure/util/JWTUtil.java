@@ -1,6 +1,6 @@
 package br.com.bancodojorge.apirest.infrastructure.util;
 
-import br.com.bancodojorge.apirest.domain.model.User;
+import br.com.bancodojorge.apirest.domain.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -23,14 +23,14 @@ public class JWTUtil {
      * @param token the JWT token to parse
      * @return the User object extracted from specified token or null if a token is invalid.
      */
-    public User parseToken(String token) {
+    public Usuario parseToken(String token) {
         try {
             Claims body = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .getBody();
 
-            User u = new User();
+            Usuario u = new Usuario();
             u.setUsername(body.getSubject());
             u.setId(Long.parseLong((String) body.get("userId")));
             u.setRole((String) body.get("role"));
@@ -49,7 +49,7 @@ public class JWTUtil {
      * @param u the user for which the token will be generated
      * @return the JWT token
      */
-    public String generateToken(User u) {
+    public String generateToken(Usuario u) {
         Claims claims = Jwts.claims().setSubject(u.getUsername());
         claims.put("userId", u.getId() + "");
         claims.put("role", u.getRole());
