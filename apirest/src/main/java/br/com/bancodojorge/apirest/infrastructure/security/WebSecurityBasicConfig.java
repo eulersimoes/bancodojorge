@@ -19,9 +19,9 @@ import org.springframework.security.web.SecurityFilterChain;
  *
  * @author Euler
  */
-@Configuration
-@EnableWebSecurity
-public class usWebSecurityConfig {
+//@Configuration
+//@EnableWebSecurity
+public class WebSecurityBasicConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
