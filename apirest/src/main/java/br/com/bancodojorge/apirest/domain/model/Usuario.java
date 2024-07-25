@@ -1,9 +1,15 @@
 package br.com.bancodojorge.apirest.domain.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity(name = "usuario")
 @Table(name = "usuario")
+@Getter //lombok gerar automaticamente getters e setters da classe
+@Setter //lombok gerar automaticamente getters e setters da classe
+@AllArgsConstructor //lombok gerar automaticamente construtor recebendo todos parametros da classe
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Usuario {
 
     @Id
