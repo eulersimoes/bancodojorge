@@ -1,6 +1,5 @@
 package br.com.bancodojorge.apirest.infrastructure.security;
 import br.com.bancodojorge.apirest.infrastructure.services.impl.JWTUserDetailsService;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,36 +26,33 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        final String requestTokenHeader = request.getHeader("Authorization");
+
+        final String authorizationHeader = request.getHeader("Authorization");
 
         String username = null;
-        String jwtToken = null;
+        String jwt = null;
 
-// JWT Token está no form "Bearer token". Remova a palavra Bearer e pegue somente o Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
-            } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
-            }
-        } else {
-            logger.warn("JWT Token does not begin with Bearer String");
+        /*if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            jwt = authorizationHeader.substring(7);
+            System.out.println("Majiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiid");
+            username = jwtUtil.extractUsername(jwt);
+        }*/
+
+        if (authorizationHeader != null) {
+            jwt = authorizationHeader.startsWith("Bearer ") ? authorizationHeader.substring(7) : authorizationHeader;
+            username = jwtTokenUtil.getUsernameFromToken(jwt);
         }
 
-// Tendo o token, valide o.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 
+            if (jwtTokenUtil.validateToken(jwt, userDetails)) {
 
-
-            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
+                usernamePasswordAuthenticationToken
+                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }

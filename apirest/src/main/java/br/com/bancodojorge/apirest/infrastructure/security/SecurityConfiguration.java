@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 //
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfiguration  {
     @Autowired
     private JWTRequestFilter jwtRequestFilter;
 
@@ -51,11 +50,18 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests(auth -> {
-                        auth
-                                .requestMatchers("/token/**").permitAll()
-                                .requestMatchers("/authenticate/**").permitAll()
-                                .anyRequest().denyAll();
-                });
+                            try {
+                                auth
+                                        .requestMatchers("/token/**").permitAll()
+                                        .requestMatchers("/authenticate/**").permitAll()
+                                        .anyRequest().authenticated()
+                                        .and().sessionManagement((session) -> session
+                                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                );
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

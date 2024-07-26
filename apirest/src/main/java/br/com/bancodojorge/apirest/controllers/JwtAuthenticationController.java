@@ -10,7 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +22,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JWTTokenUtil jwtTokenUtil;
 
-    @PostMapping(value = "/authenticate", consumes = MediaType.ALL_VALUE)
+    @RequestMapping(value = "/authenticate", consumes = MediaType.ALL_VALUE,method = {RequestMethod.POST,RequestMethod.GET})
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequestDto authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
