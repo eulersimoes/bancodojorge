@@ -18,7 +18,7 @@ public class JWTTokenUtil {
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    private String secret = "zdtlD3JK56m6wTTgsNFhqzjqP";
+    private String secret = "2D4A614E645267556B58703273357638792F423F4428472B4B6250655368566DDDSDSAWSW123452D4A614E645267556B58703273357638792F423F4428472B4B6250655368566DDDSDSAWSW12345";
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
@@ -36,7 +36,7 @@ public class JWTTokenUtil {
     }
     //for retrieveing any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(secret).build().parseClaimsJws(token).getBody();
     }
 
     //check if the token has expired
@@ -58,9 +58,13 @@ public class JWTTokenUtil {
     //   compaction of the JWT to a URL-safe string
     private String doGenerateToken(Map<String, Object> claims, String subject) {
 
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
     }
 
     //validate token

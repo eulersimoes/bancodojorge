@@ -32,16 +32,6 @@ public class SecurityConfiguration {
     private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("ck")
-                .password("ck")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
-
-    @Bean
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity, JWTUserDetailsService jwtUserDetailsService)
             throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
@@ -61,25 +51,19 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests(auth -> {
-                    try {
                         auth
                                 .requestMatchers("/token/**").permitAll()
-                                .anyRequest().denyAll()
-                                .and()
-                                .exceptionHandling(exh -> exh.authenticationEntryPoint(jwtAuthenticationEntryPoint));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                                .requestMatchers("/authenticate/**").permitAll()
+                                .anyRequest().denyAll();
                 });
-
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/authenticate").anyRequest();
-    }
+    //@Bean
+    //public WebSecurityCustomizer webSecurityCustomizer() {
+    //    return (web) -> web.ignoring().requestMatchers("/authenticate").anyRequest();
+    //}
 }
