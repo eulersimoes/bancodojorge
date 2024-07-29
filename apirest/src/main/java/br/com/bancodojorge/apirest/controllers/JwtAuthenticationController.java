@@ -2,7 +2,7 @@ package br.com.bancodojorge.apirest.controllers;
 
 import br.com.bancodojorge.apirest.domain.dto.AuthenticateResponseDto;
 import br.com.bancodojorge.apirest.domain.dto.AuthenticationRequestDto;
-import br.com.bancodojorge.apirest.infrastructure.security.JWTTokenUtil;
+import br.com.bancodojorge.apirest.infrastructure.util.JWTTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

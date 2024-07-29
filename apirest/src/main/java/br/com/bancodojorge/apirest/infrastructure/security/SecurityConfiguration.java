@@ -1,7 +1,10 @@
 package br.com.bancodojorge.apirest.infrastructure.security;
 
 
+import br.com.bancodojorge.apirest.infrastructure.filter.JWTRequestFilter;
 import br.com.bancodojorge.apirest.infrastructure.services.impl.JWTUserDetailsService;
+import br.com.bancodojorge.apirest.infrastructure.util.JWTTokenUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,11 +12,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 //https://www.linkedin.com/pulse/spring-boot-using-jwt-without-tung-vo
@@ -30,6 +31,9 @@ public class SecurityConfiguration  {
     @Autowired
     private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    @Autowired
+    private JWTTokenUtil jwtTokenUtil;
+
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity, JWTUserDetailsService jwtUserDetailsService)
             throws Exception {
@@ -45,31 +49,16 @@ public class SecurityConfiguration  {
 
         AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder);
-
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeRequests(auth -> {
-                            try {
-                                auth
+                .exceptionHandling(exh-> exh.authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
+                // Add a filter to validate the tokens with every request
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests(auth ->  auth
                                         .requestMatchers("/token/**").permitAll()
                                         .requestMatchers("/authenticate/**").permitAll()
-                                        .anyRequest().authenticated()
-                                        .and().sessionManagement((session) -> session
-                                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                );
-        // Add a filter to validate the tokens with every request
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                                        .anyRequest().authenticated());
         return httpSecurity.build();
     }
-
-
-    //@Bean
-    //public WebSecurityCustomizer webSecurityCustomizer() {
-    //    return (web) -> web.ignoring().requestMatchers("/authenticate").anyRequest();
-    //}
 }

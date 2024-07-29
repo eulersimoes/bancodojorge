@@ -1,8 +1,9 @@
-package br.com.bancodojorge.apirest.infrastructure.security;
+package br.com.bancodojorge.apirest.infrastructure.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +15,10 @@ import java.util.function.Function;
 @Component
 public class JWTTokenUtil {
 
-    private static final long serialVersionUID = -2550185165626007488L;
-
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    private String secret = "2D4A614E645267556B58703273357638792F423F4428472B4B6250655368566DDDSDSAWSW123452D4A614E645267556B58703273357638792F423F4428472B4B6250655368566DDDSDSAWSW12345";
+    @Value("${jwt.secret}")
+    private String secret;
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
@@ -71,6 +71,10 @@ public class JWTTokenUtil {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public String getSecret(){
+        return this.secret;
     }
 
 }
