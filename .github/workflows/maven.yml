@@ -35,15 +35,15 @@ jobs:
       uses: actions/checkout@v3
     # O Step abaixo serve para fazer a compilação do projeto pelo maven, esta comentado porque o build esta sendo realizado dentro do
     # próprio dockerfile.
-    #- name: Set up JDK 17
-    #  uses: actions/setup-java@v3
-    #  with:
-    #    java-version: '17'
-    #    maven-version: 3.8.7
-    #    distribution: 'temurin'
-    #    cache: maven
-    #- name: Build with Maven
-    #  run: mvn -B package --file ./apirest/pom.xml
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        maven-version: 3.8.7
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file ./apirest/pom.xml
 
     - name: Log in to Docker Hub
       uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
